@@ -1,408 +1,882 @@
-<!DOCTYPE html><html lang="ar" dir="rtl"><head>  <meta charset="UTF-8"><meta
-name="viewport"
-content="width=device-width, initial-scale=1.0"
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
 
-«»
+<head>
 
-  <title>Football Live - مباريات اليوم</title><meta
-name="description"
-content="جميع مباريات كرة القدم اليوم مع المواعيد والنتائج المباشرة."
+<meta charset="UTF-8">
 
-«»
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
 
-  <style>
+<title>Football Live - مباريات اليوم</title>
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+<meta
+  name="description"
+  content="مباريات اليوم مباشرة، النتائج، المواعيد وأهم مباريات كرة القدم."
+>
 
-    body {
-      font-family: Arial, Tahoma, sans-serif;
-      background: #0b0f19;
-      color: #fff;
-      min-height: 100vh;
-    }
+<style>
 
-    header {
-      background: #111827;
-      padding: 18px 15px;
-      text-align: center;
-      border-bottom: 1px solid #202938;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-    .logo {
-      font-size: 24px;
-      font-weight: bold;
-    }
+body {
+  font-family: Arial, Tahoma, sans-serif;
+  background: #0b0f19;
+  color: #fff;
+  min-height: 100vh;
+}
 
-    .logo span {
-      color: #22c55e;
-    }
+header {
+  background: #111827;
+  padding: 17px 15px;
+  text-align: center;
+  border-bottom: 1px solid #202938;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
 
-    .date {
-      margin-top: 7px;
-      color: #9ca3af;
-      font-size: 14px;
-    }
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+}
 
-    main {
-      max-width: 700px;
-      margin: auto;
-      padding: 18px 12px 40px;
-    }
+.logo span {
+  color: #22c55e;
+}
 
-    .title {
-      font-size: 22px;
-      margin-bottom: 15px;
-    }
+.date {
+  margin-top: 7px;
+  color: #9ca3af;
+  font-size: 14px;
+}
 
-    .loading,
-    .error,
-    .empty {
-      text-align: center;
-      padding: 40px 15px;
-      color: #9ca3af;
-    }
+main {
+  max-width: 720px;
+  margin: auto;
+  padding: 18px 12px 50px;
+}
 
-    .error {
-      color: #ef4444;
-    }
+.title {
+  font-size: 22px;
+  margin-bottom: 18px;
+}
 
-    .match {
-      background: #111827;
-      border: 1px solid #202938;
-      border-radius: 14px;
-      padding: 14px;
-      margin-bottom: 10px;
-      transition: 0.2s;
-    }
+.section {
+  margin-bottom: 25px;
+}
 
-    .match:hover {
-      border-color: #374151;
-    }
+.section-title {
+  font-size: 17px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  padding-right: 8px;
+  border-right: 3px solid #22c55e;
+}
 
-    .league {
-      color: #9ca3af;
-      font-size: 12px;
-      margin-bottom: 12px;
-    }
+.match {
+  background: #111827;
+  border: 1px solid #202938;
+  border-radius: 14px;
+  padding: 14px;
+  margin-bottom: 10px;
+}
 
-    .teams {
-      display: grid;
-      grid-template-columns: 1fr 70px 1fr;
-      align-items: center;
-      gap: 8px;
-    }
+.match.live-match {
+  border-color: #166534;
+}
 
-    .team {
-      text-align: center;
-      font-size: 14px;
-      font-weight: bold;
-    }
+.league {
+  color: #9ca3af;
+  font-size: 12px;
+  margin-bottom: 12px;
+}
 
-    .team img {
-      width: 38px;
-      height: 38px;
-      object-fit: contain;
-      display: block;
-      margin: 0 auto 7px;
-    }
+.teams {
+  display: grid;
+  grid-template-columns: 1fr 75px 1fr;
+  align-items: center;
+  gap: 8px;
+}
 
-    .time {
-      text-align: center;
-      font-size: 17px;
-      font-weight: bold;
-    }
+.team {
+  text-align: center;
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 1.35;
+}
 
-    .status {
-      display: block;
-      font-size: 11px;
-      margin-top: 4px;
-      color: #9ca3af;
-      font-weight: normal;
-    }
+.team img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto 7px;
+}
 
-    .live {
-      color: #22c55e;
-    }
+.time {
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+}
 
-    .finished {
-      color: #ef4444;
-    }
+.status {
+  display: block;
+  font-size: 11px;
+  margin-top: 4px;
+  color: #9ca3af;
+  font-weight: normal;
+}
 
-    .score {
-      display: block;
-      font-size: 13px;
-      margin-top: 4px;
-      color: #fff;
-    }
+.live {
+  color: #22c55e;
+}
 
-    .watch {
-      width: 100%;
-      margin-top: 14px;
-      border: none;
-      border-radius: 9px;
-      padding: 11px;
-      background: #22c55e;
-      color: #06100a;
-      font-size: 14px;
-      font-weight: bold;
-      cursor: pointer;
-    }
+.finished {
+  color: #ef4444;
+}
 
-    .watch:hover {
-      opacity: 0.9;
-    }
+.score {
+  display: block;
+  font-size: 14px;
+  margin-top: 4px;
+  color: #fff;
+}
 
-    .debug {
-      margin-top: 15px;
-      padding: 12px;
-      background: #05070c;
-      border: 1px solid #374151;
-      border-radius: 10px;
-      color: #9ca3af;
-      direction: ltr;
-      text-align: left;
-      font-size: 12px;
-      word-break: break-word;
-    }
+.watch {
+  width: 100%;
+  margin-top: 14px;
+  border: none;
+  border-radius: 9px;
+  padding: 11px;
+  background: #22c55e;
+  color: #06100a;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+}
 
-  </style></head><body><header>  <div class="logo">
+.watch:hover {
+  opacity: .9;
+}
+
+.empty {
+  text-align: center;
+  color: #9ca3af;
+  padding: 30px 10px;
+  background: #111827;
+  border-radius: 12px;
+}
+
+.loading {
+  text-align: center;
+  color: #9ca3af;
+  padding: 50px 10px;
+}
+
+.error {
+  text-align: center;
+  color: #ef4444;
+  padding: 40px 10px;
+}
+
+.debug {
+  margin-top: 15px;
+  padding: 12px;
+  background: #05070c;
+  border: 1px solid #374151;
+  border-radius: 10px;
+  color: #9ca3af;
+  direction: ltr;
+  text-align: left;
+  font-size: 12px;
+  word-break: break-word;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+  <div class="logo">
     Football <span>Live</span>
-  </div>  <div
+  </div>
+
+  <div
     class="date"
     id="date"
-  ></div></header><main>  <h1 class="title">
+  ></div>
+
+</header>
+
+
+<main>
+
+  <h1 class="title">
     ⚽ مباريات اليوم
-  </h1>  <div
+  </h1>
+
+  <div
     id="matches"
     class="loading"
   >
     جاري تحميل المباريات...
-  </div></main><script>
+  </div>
+
+</main>
 
 
-  // =========================
-  // التاريخ
-  // =========================
-
-  const today = new Date();
-
-  document.getElementById("date").textContent =
-    today.toLocaleDateString(
-      "ar-MA",
-      {
-        weekday: "long",
-        year: "numeric",
-        month: "long",
-        day: "numeric"
-      }
-    );
+<script>
 
 
-  // =========================
-  // حالة المباراة
-  // =========================
+/* =========================
+   التاريخ
+========================= */
 
-  function getStatus(fixture) {
+const today = new Date();
 
-    const status =
-      fixture.fixture.status.short;
-
-
-    if (
-      ["1H", "2H", "ET", "P"].includes(status)
-    ) {
-
-      return {
-        text: "مباشر",
-        className: "live"
-      };
-
+document.getElementById("date").textContent =
+  today.toLocaleDateString(
+    "ar-MA",
+    {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric"
     }
+  );
 
 
-    if (status === "HT") {
+/* =========================
+   حالة المباراة
+========================= */
 
-      return {
-        text: "استراحة",
-        className: "live"
-      };
+function getStatus(fixture) {
 
-    }
+  const status =
+    fixture.fixture.status.short;
 
-
-    if (
-      ["FT", "AET", "PEN"].includes(status)
-    ) {
-
-      return {
-        text: "انتهت",
-        className: "finished"
-      };
-
-    }
-
-
-    if (status === "PST") {
-
-      return {
-        text: "تأجلت",
-        className: ""
-      };
-
-    }
-
-
-    if (status === "CANC") {
-
-      return {
-        text: "ألغيت",
-        className: "finished"
-      };
-
-    }
-
+  if (
+    ["1H", "2H", "ET", "P"].includes(status)
+  ) {
 
     return {
-      text: "لم تبدأ",
-      className: ""
+      text: "مباشر",
+      className: "live",
+      live: true
     };
 
   }
 
+  if (status === "HT") {
 
-  // =========================
-  // الوقت
-  // =========================
+    return {
+      text: "استراحة",
+      className: "live",
+      live: true
+    };
 
-  function getTime(dateString) {
+  }
 
-    return new Date(
-      dateString
-    ).toLocaleTimeString(
-      "ar-MA",
-      {
-        hour: "2-digit",
-        minute: "2-digit"
-      }
-    );
+  if (
+    ["FT", "AET", "PEN"].includes(status)
+  ) {
+
+    return {
+      text: "انتهت",
+      className: "finished",
+      live: false
+    };
+
+  }
+
+  if (status === "PST") {
+
+    return {
+      text: "تأجلت",
+      className: "",
+      live: false
+    };
+
+  }
+
+  if (status === "CANC") {
+
+    return {
+      text: "ألغيت",
+      className: "finished",
+      live: false
+    };
+
+  }
+
+  return {
+    text: "لم تبدأ",
+    className: "",
+    live: false
+  };
+
+}
+
+
+/* =========================
+   الوقت
+========================= */
+
+function getTime(dateString) {
+
+  return new Date(
+    dateString
+  ).toLocaleTimeString(
+    "ar-MA",
+    {
+      hour: "2-digit",
+      minute: "2-digit"
+    }
+  );
+
+}
+
+
+/* =========================
+   استبعاد المباريات
+========================= */
+
+function isExcluded(fixture) {
+
+  const league =
+    (fixture.league?.name || "").toLowerCase();
+
+  const home =
+    (fixture.teams?.home?.name || "").toLowerCase();
+
+  const away =
+    (fixture.teams?.away?.name || "").toLowerCase();
+
+  const text =
+    league + " " + home + " " + away;
+
+
+  // نساء
+  if (
+    /\bwomen\b|\bwoman\b|\bw\b/.test(text)
+  ) {
+    return true;
+  }
+
+
+  // فئات الشباب
+  if (
+    /\bu17\b|\bu18\b|\bu19\b|\bu20\b|\bu21\b|\bu23\b/.test(text)
+  ) {
+    return true;
+  }
+
+
+  // Reserve
+  if (
+    text.includes("reserve") ||
+    text.includes("res.")
+  ) {
+    return true;
+  }
+
+
+  // Youth
+  if (
+    text.includes("youth")
+  ) {
+    return true;
+  }
+
+
+  return false;
+
+}
+
+
+/* =========================
+   مباريات مهمة
+========================= */
+
+function getImportance(fixture) {
+
+  const league =
+    (fixture.league?.name || "").toLowerCase();
+
+
+  const home =
+    (fixture.teams?.home?.name || "").toLowerCase();
+
+  const away =
+    (fixture.teams?.away?.name || "").toLowerCase();
+
+
+  let score = 0;
+
+
+  /* المنتخبات */
+
+  if (
+    fixture.league?.type === "cup" ||
+    league.includes("world cup") ||
+    league.includes("euro") ||
+    league.includes("africa cup") ||
+    league.includes("nations league") ||
+    league.includes("qualification")
+  ) {
+
+    score += 70;
 
   }
 
 
-  // =========================
-  // بطاقة المباراة
-  // =========================
+  /* البطولات الكبرى */
 
-  function createMatch(fixture) {
+  if (
+    league.includes("premier league") ||
+    league.includes("la liga") ||
+    league.includes("serie a") ||
+    league.includes("bundesliga") ||
+    league.includes("ligue 1")
+  ) {
 
-    const home =
-      fixture.teams.home;
+    score += 100;
 
-    const away =
-      fixture.teams.away;
-
-    const status =
-      getStatus(fixture);
-
-
-    const homeScore =
-      fixture.goals.home !== null
-        ? fixture.goals.home
-        : "";
+  }
 
 
-    const awayScore =
-      fixture.goals.away !== null
-        ? fixture.goals.away
-        : "";
+  /* دوري الأبطال */
+
+  if (
+    league.includes("champions league") &&
+    !league.includes("women")
+  ) {
+
+    score += 120;
+
+  }
 
 
-    const score =
-      homeScore !== "" ||
-      awayScore !== ""
-        ? `
-          <span class="score">
-            ${homeScore} - ${awayScore}
+  /* أوروبا */
+
+  if (
+    league.includes("europa league")
+  ) {
+
+    score += 100;
+
+  }
+
+
+  /* أسماء منتخبات معروفة */
+
+  const nationalTeams = [
+
+    "morocco",
+    "algeria",
+    "tunisia",
+    "egypt",
+    "senegal",
+    "nigeria",
+    "ghana",
+    "ivory coast",
+    "cameroon",
+    "south africa",
+
+    "spain",
+    "france",
+    "england",
+    "germany",
+    "italy",
+    "portugal",
+    "netherlands",
+    "belgium",
+    "brazil",
+    "argentina"
+
+  ];
+
+
+  for (
+    const team of nationalTeams
+  ) {
+
+    if (
+      home.includes(team) ||
+      away.includes(team)
+    ) {
+
+      score += 80;
+
+    }
+
+  }
+
+
+  return score;
+
+}
+
+
+/* =========================
+   بطاقة المباراة
+========================= */
+
+function createMatch(fixture) {
+
+  const home =
+    fixture.teams.home;
+
+  const away =
+    fixture.teams.away;
+
+  const status =
+    getStatus(fixture);
+
+
+  const homeScore =
+    fixture.goals.home !== null
+      ? fixture.goals.home
+      : "";
+
+  const awayScore =
+    fixture.goals.away !== null
+      ? fixture.goals.away
+      : "";
+
+
+  const score =
+    homeScore !== "" ||
+    awayScore !== ""
+      ? `
+        <span class="score">
+          ${homeScore} - ${awayScore}
+        </span>
+      `
+      : "";
+
+
+  return `
+
+    <div class="match ${status.live ? "live-match" : ""}">
+
+      <div class="league">
+        ${fixture.league.name}
+      </div>
+
+
+      <div class="teams">
+
+
+        <div class="team">
+
+          <img
+            src="${home.logo || ""}"
+            alt=""
+            loading="lazy"
+            onerror="this.style.display='none'"
+          >
+
+          ${home.name}
+
+        </div>
+
+
+        <div class="time">
+
+          ${getTime(
+            fixture.fixture.date
+          )}
+
+          <span
+            class="status ${status.className}"
+          >
+            ${status.text}
           </span>
-        `
-        : "";
 
-
-    return `
-
-      <div class="match">
-
-
-        <div class="league">
-          ${fixture.league.name}
-        </div>
-
-
-        <div class="teams">
-
-
-          <div class="team">
-
-            <img
-              src="${home.logo || ""}"
-              alt=""
-              loading="lazy"
-              onerror="this.style.display='none'"
-            >
-
-            ${home.name}
-
-          </div>
-
-
-          <div class="time">
-
-            ${getTime(
-              fixture.fixture.date
-            )}
-
-            <span
-              class="status ${status.className}"
-            >
-              ${status.text}
-            </span>
-
-            ${score}
-
-          </div>
-
-
-          <div class="team">
-
-            <img
-              src="${away.logo || ""}"
-              alt=""
-              loading="lazy"
-              onerror="this.style.display='none'"
-            >
-
-            ${away.name}
-
-          </div>
-
+          ${score}
 
         </div>
 
 
-        <button
-          class="watch"
-          onclick="openMatch(${fixture.fixture.id})"
-        >
-          مشاهدة المباراة
-        </button>
+        <div class="team">
 
+          <img
+            src="${away.logo || ""}"
+            alt=""
+            loading="lazy"
+            onerror="this.style.display='none'"
+          >
+
+          ${away.name}
+
+        </div>
+
+
+      </div>
+
+
+      <button
+        class="watch"
+        onclick="openMatch(${fixture.fixture.id})"
+      >
+        مشاهدة المباراة
+      </button>
+
+
+    </div>
+
+  `;
+
+}
+
+
+/* =========================
+   فتح المباراة
+========================= */
+
+function openMatch(id) {
+
+  window.location.href =
+    "/match.html?id=" +
+    encodeURIComponent(id);
+
+}
+
+
+/* =========================
+   إنشاء قسم
+========================= */
+
+function renderSection(
+  title,
+  fixtures
+) {
+
+  if (!fixtures.length) {
+    return "";
+  }
+
+
+  return `
+
+    <section class="section">
+
+      <h2 class="section-title">
+        ${title}
+      </h2>
+
+      ${fixtures
+        .map(createMatch)
+        .join("")}
+
+    </section>
+
+  `;
+
+}
+
+
+/* =========================
+   تحميل المباريات
+========================= */
+
+async function loadMatches() {
+
+  const container =
+    document.getElementById("matches");
+
+
+  try {
+
+    const response =
+      await fetch(
+        "/matches",
+        {
+          cache: "no-store"
+        }
+      );
+
+
+    const text =
+      await response.text();
+
+
+    let data;
+
+
+    try {
+
+      data = JSON.parse(text);
+
+    } catch {
+
+      throw new Error(
+        "الخادم أرسل استجابة غير صحيحة."
+      );
+
+    }
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        data.details
+          ? JSON.stringify(data.details)
+          : data.error ||
+            "خطأ في الخادم."
+      );
+
+    }
+
+
+    if (
+      !data.response ||
+      !Array.isArray(data.response)
+    ) {
+
+      throw new Error(
+        "بيانات المباريات غير صحيحة."
+      );
+
+    }
+
+
+    let fixtures =
+      data.response.filter(
+        fixture =>
+          !isExcluded(fixture)
+      );
+
+
+    if (!fixtures.length) {
+
+      container.innerHTML = `
+
+        <div class="empty">
+          لا توجد مباريات مناسبة للعرض اليوم.
+        </div>
+
+      `;
+
+      return;
+
+    }
+
+
+    /* المباريات المباشرة */
+
+    const live =
+      fixtures.filter(
+        fixture =>
+          getStatus(fixture).live
+      );
+
+
+    /* مباريات مهمة */
+
+    const important =
+      fixtures
+        .filter(
+          fixture =>
+            !getStatus(fixture).live
+        )
+        .sort(
+          (a, b) =>
+            getImportance(b) -
+            getImportance(a)
+        )
+        .slice(0, 20);
+
+
+    /* باقي المباريات */
+
+    const usedIds =
+      new Set(
+        [
+          ...live,
+          ...important
+        ].map(
+          fixture =>
+            fixture.fixture.id
+        )
+      );
+
+
+    const rest =
+      fixtures
+        .filter(
+          fixture =>
+            !usedIds.has(
+              fixture.fixture.id
+            )
+        )
+        .sort(
+          (a, b) =>
+            new Date(a.fixture.date) -
+            new Date(b.fixture.date)
+        )
+        .slice(0, 30);
+
+
+    let html = "";
+
+
+    html += renderSection(
+      "🔴 مباشر الآن",
+      live
+    );
+
+
+    html += renderSection(
+      "⭐ أهم مباريات اليوم",
+      important
+    );
+
+
+    html += renderSection(
+      "⚽ باقي مباريات اليوم",
+      rest
+    );
+
+
+    container.innerHTML =
+      html;
+
+  }
+
+
+  catch (error) {
+
+    console.error(
+      "Matches error:",
+      error
+    );
+
+
+    container.innerHTML = `
+
+      <div class="error">
+
+        وقع مشكل أثناء تحميل المباريات.
+
+        <br><br>
+
+        حاول تحديث الصفحة.
+
+        <div class="debug">
+          ${error.message}
+        </div>
 
       </div>
 
@@ -410,155 +884,13 @@ content="جميع مباريات كرة القدم اليوم مع المواع�
 
   }
 
+}
 
-  // =========================
-  // فتح المباراة
-  // =========================
 
-  function openMatch(id) {
+loadMatches();
 
-    window.location.href =
-      "/match.html?id=" +
-      encodeURIComponent(id);
+</script>
 
-  }
+</body>
 
-
-  // =========================
-  // تحميل المباريات
-  // =========================
-
-  async function loadMatches() {
-
-    const container =
-      document.getElementById("matches");
-
-
-    try {
-
-
-      const response =
-        await fetch(
-          "/matches",
-          {
-            cache: "no-store"
-          }
-        );
-
-
-      const text =
-        await response.text();
-
-
-      let data;
-
-
-      try {
-
-        data = JSON.parse(text);
-
-      } catch {
-
-        throw new Error(
-          "الخادم أرسل استجابة غير صحيحة."
-        );
-
-      }
-
-
-      if (!response.ok) {
-
-        throw new Error(
-          data.details
-            ? JSON.stringify(data.details)
-            : data.error ||
-              "خطأ في الخادم."
-        );
-
-      }
-
-
-      if (
-        !data.response ||
-        !Array.isArray(data.response)
-      ) {
-
-        throw new Error(
-          "بيانات المباريات غير صحيحة."
-        );
-
-      }
-
-
-      if (data.response.length === 0) {
-
-        container.innerHTML = `
-
-          <div class="empty">
-
-            لا توجد مباريات اليوم.
-
-          </div>
-
-        `;
-
-        return;
-
-      }
-
-
-      // ترتيب حسب وقت البداية
-
-      data.response.sort(
-        (a, b) =>
-          new Date(a.fixture.date) -
-          new Date(b.fixture.date)
-      );
-
-
-      container.innerHTML =
-        data.response
-          .map(createMatch)
-          .join("");
-
-
-    }
-
-
-    catch (error) {
-
-      console.error(
-        "Matches error:",
-        error
-      );
-
-
-      container.innerHTML = `
-
-        <div class="error">
-
-          وقع مشكل أثناء تحميل المباريات.
-
-          <br><br>
-
-          حاول تحديث الصفحة.
-
-          <div class="debug">
-            ${error.message}
-          </div>
-
-        </div>
-
-      `;
-
-    }
-
-  }
-
-
-  // تشغيل
-
-  loadMatches();
-
-
-</script></body></html>
+</html>
