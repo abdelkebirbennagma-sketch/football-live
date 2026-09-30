@@ -20,7 +20,6 @@ export async function onRequestGet(context) {
 
     }
 
-
     // تاريخ المغرب
     const formatter = new Intl.DateTimeFormat(
       "en-CA",
@@ -34,8 +33,6 @@ export async function onRequestGet(context) {
 
     const today = formatter.format(new Date());
 
-
-    // رابط API-Football
     const apiUrl =
       "https://v3.football.api-sports.io/fixtures" +
       "?date=" +
@@ -43,14 +40,49 @@ export async function onRequestGet(context) {
       "&timezone=" +
       encodeURIComponent("Africa/Casablanca");
 
+    /*
+      Cache API-Football response.
 
-    // Timeout باش ما يبقاش الطلب عالق
+      جميع الزوار غادي يستعملو نفس النتيجة
+      لمدة 5 دقائق بدل ما كل زائر يرسل
+      طلب جديد إلى API-Football.
+    */
+
+    const cache = caches.default;
+
+    const cacheKey = new Request(
+      "https://football-live-cache.local/matches/" +
+      today
+    );
+
+    // محاولة أخذ البيانات من Cache
+    const cachedResponse = await cache.match(cacheKey);
+
+    if (cachedResponse) {
+
+      return new Response(
+        cachedResponse.body,
+        {
+          status: cachedResponse.status,
+          headers: {
+            "Content-Type": "application/json",
+            "X-Football-Cache": "HIT"
+          }
+        }
+      );
+
+    }
+
+    /*
+      لم نجد البيانات في Cache.
+      نطلبها من API-Football.
+    */
+
     const controller = new AbortController();
 
     const timeout = setTimeout(() => {
       controller.abort();
     }, 8000);
-
 
     let response;
 
@@ -60,20 +92,15 @@ export async function onRequestGet(context) {
         apiUrl,
         {
           method: "GET",
-
           headers: {
             "x-apisports-key": apiKey,
             "Accept": "application/json"
           },
-
           signal: controller.signal
         }
       );
 
     } catch (error) {
-
-      clearTimeout(timeout);
-
 
       if (error.name === "AbortError") {
 
@@ -91,7 +118,6 @@ export async function onRequestGet(context) {
         );
 
       }
-
 
       return new Response(
         JSON.stringify({
@@ -112,10 +138,7 @@ export async function onRequestGet(context) {
 
     }
 
-
-    // قراءة الرد
     const text = await response.text();
-
 
     let data;
 
@@ -141,8 +164,31 @@ export async function onRequestGet(context) {
 
     }
 
+    /*
+      API-Football rate limit
+    */
 
-    // HTTP error
+    if (
+      data.errors &&
+      Object.keys(data.errors).length > 0
+    ) {
+
+      return new Response(
+        JSON.stringify({
+          error: "خطأ في واجهة برمجة التطبيقات لكرة القدم",
+          details: data.errors
+        }),
+        {
+          status: 429,
+          headers: {
+            "Content-Type": "application/json",
+            "Cache-Control": "no-store"
+          }
+        }
+      );
+
+    }
+
     if (!response.ok) {
 
       return new Response(
@@ -161,35 +207,16 @@ export async function onRequestGet(context) {
 
     }
 
+    /*
+      Response التي غادي نخزنوها في Cache.
 
-    // API-Football رجعات errors رغم HTTP 200
-    if (
-      data.errors &&
-      Object.keys(data.errors).length > 0
-    ) {
+      Cache-Control = 5 دقائق
+    */
 
-      return new Response(
-        JSON.stringify({
-          error: "API-Football error",
-          details: data.errors
-        }),
-        {
-          status: 502,
-          headers: {
-            "Content-Type": "application/json"
-          }
-        }
-      );
-
-    }
-
-
-    // كلشي مزيان
-    return new Response(
+    const cacheResponse = new Response(
       JSON.stringify(data),
       {
         status: 200,
-
         headers: {
           "Content-Type": "application/json",
           "Cache-Control": "public, max-age=300"
@@ -197,6 +224,32 @@ export async function onRequestGet(context) {
       }
     );
 
+    /*
+      تخزين النتيجة في Cloudflare Cache
+    */
+
+    context.waitUntil(
+      cache.put(
+        cacheKey,
+        cacheResponse.clone()
+      )
+    );
+
+    /*
+      إرسال النتيجة للزائر
+    */
+
+    return new Response(
+      JSON.stringify(data),
+      {
+        status: 200,
+        headers: {
+          "Content-Type": "application/json",
+          "Cache-Control": "public, max-age=300",
+          "X-Football-Cache": "MISS"
+        }
+      }
+    );
 
   } catch (error) {
 
@@ -207,7 +260,6 @@ export async function onRequestGet(context) {
       }),
       {
         status: 500,
-
         headers: {
           "Content-Type": "application/json"
         }
