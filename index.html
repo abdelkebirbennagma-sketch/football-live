@@ -1,13 +1,8 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<!DOCTYPE html><html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Football Live - مباريات اليوم</title>
-  <meta name="description" content="جميع مباريات كرة القدم اليوم مع المواعيد والنتائج المباشرة.">
-
-  <style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">  <title>Football Live - مباريات اليوم</title>
+  <meta name="description" content="جميع مباريات كرة القدم اليوم مع المواعيد والنتائج المباشرة.">  <style>
     * {
       box-sizing: border-box;
       margin: 0;
@@ -154,29 +149,17 @@
     .watch:hover {
       opacity: 0.9;
     }
-  </style>
-</head>
-
-<body>
-
-<header>
+  </style></head><body><header>
   <div class="logo">Football <span>Live</span></div>
   <div class="date" id="date"></div>
-</header>
-
-<main>
-
-  <h1 class="title">⚽ مباريات اليوم</h1>
-
-  <div id="matches" class="loading">
+</header><main>  <h1 class="title">⚽ مباريات اليوم</h1>  <div id="matches" class="loading">
     جاري تحميل المباريات...
-  </div>
+  </div></main><script>
 
-</main>
-
-<script>
-
+  // =========================
   // التاريخ
+  // =========================
+
   const today = new Date();
 
   document.getElementById("date").textContent =
@@ -188,7 +171,10 @@
     });
 
 
-  // تحويل حالة المباراة إلى العربية
+  // =========================
+  // حالة المباراة
+  // =========================
+
   function getStatus(fixture) {
 
     const status = fixture.fixture.status.short;
@@ -235,7 +221,10 @@
   }
 
 
+  // =========================
   // تنسيق الساعة
+  // =========================
+
   function getTime(dateString) {
 
     const date = new Date(dateString);
@@ -247,7 +236,10 @@
   }
 
 
+  // =========================
   // إنشاء بطاقة المباراة
+  // =========================
+
   function createMatch(fixture) {
 
     const home = fixture.teams.home;
@@ -280,16 +272,21 @@
         <div class="teams">
 
           <div class="team">
+
             <img
               src="${home.logo || ""}"
               alt=""
               loading="lazy"
               onerror="this.style.display='none'"
             >
+
             ${home.name}
+
           </div>
 
+
           <div class="time">
+
             ${getTime(fixture.fixture.date)}
 
             <span class="status ${status.className}">
@@ -297,21 +294,30 @@
             </span>
 
             ${score}
+
           </div>
 
+
           <div class="team">
+
             <img
               src="${away.logo || ""}"
               alt=""
               loading="lazy"
               onerror="this.style.display='none'"
             >
+
             ${away.name}
+
           </div>
 
         </div>
 
-        <button class="watch" onclick="openMatch(${fixture.fixture.id})">
+
+        <button
+          class="watch"
+          onclick="openMatch(${fixture.fixture.id})"
+        >
           مشاهدة المباراة
         </button>
 
@@ -320,28 +326,42 @@
   }
 
 
+  // =========================
   // فتح صفحة المباراة
+  // =========================
+
   function openMatch(id) {
-    alert("صفحة المباراة رقم " + id + " غادي نجهزوها فالخطوة الجاية.");
+
+    window.location.href =
+      "/match.html?id=" + encodeURIComponent(id);
+
   }
 
 
+  // =========================
   // تحميل المباريات
+  // =========================
+
   async function loadMatches() {
 
-    const container = document.getElementById("matches");
+    const container =
+      document.getElementById("matches");
 
     try {
 
-      const response = await fetch("/matches");
+      const response =
+        await fetch("/matches");
 
       if (!response.ok) {
         throw new Error("API Error");
       }
 
-      const data = await response.json();
+      const data =
+        await response.json();
 
-      if (!data.response || data.response.length === 0) {
+
+      if (!data.response ||
+          data.response.length === 0) {
 
         container.innerHTML = `
           <div class="empty">
@@ -354,13 +374,22 @@
 
 
       // ترتيب المباريات حسب وقت البداية
+
       data.response.sort((a, b) => {
-        return new Date(a.fixture.date) - new Date(b.fixture.date);
+
+        return new Date(a.fixture.date) -
+               new Date(b.fixture.date);
+
       });
 
 
+      // عرض المباريات
+
       container.innerHTML =
-        data.response.map(createMatch).join("");
+        data.response
+          .map(createMatch)
+          .join("");
+
 
     } catch (error) {
 
@@ -368,18 +397,22 @@
 
       container.innerHTML = `
         <div class="error">
+
           وقع مشكل أثناء تحميل المباريات.
+
           <br><br>
+
           حاول تحديث الصفحة.
+
         </div>
       `;
     }
   }
 
 
+  // تشغيل التحميل
+
   loadMatches();
 
-</script>
-
-</body>
+</script></body>
 </html>
