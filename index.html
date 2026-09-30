@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>مباريات اليوم | Football Live</title>
+  <meta name="description" content="تابع مباريات كرة القدم اليوم ومواعيد المباريات والنتائج مباشرة.">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #0b0f17;
+      color: #fff;
+    }
+
+    header {
+      background: #111827;
+      padding: 18px 16px;
+      text-align: center;
+      border-bottom: 1px solid #1f2937;
+    }
+
+    .logo {
+      font-size: 25px;
+      font-weight: bold;
+    }
+
+    .logo span {
+      color: #22c55e;
+    }
+
+    .subtitle {
+      color: #9ca3af;
+      font-size: 13px;
+      margin-top: 7px;
+    }
+
+    main {
+      width: 100%;
+      max-width: 700px;
+      margin: auto;
+      padding: 20px 12px;
+    }
+
+    .title {
+      font-size: 21px;
+      margin-bottom: 15px;
+    }
+
+    .date {
+      color: #9ca3af;
+      font-size: 13px;
+      margin-bottom: 18px;
+    }
+
+    .match {
+      background: #111827;
+      border: 1px solid #1f2937;
+      border-radius: 12px;
+      padding: 15px;
+      margin-bottom: 12px;
+    }
+
+    .competition {
+      color: #9ca3af;
+      font-size: 12px;
+      margin-bottom: 12px;
+    }
+
+    .teams {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .team {
+      width: 35%;
+      text-align: center;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .time {
+      width: 25%;
+      text-align: center;
+    }
+
+    .hour {
+      font-size: 17px;
+      font-weight: bold;
+    }
+
+    .status {
+      display: inline-block;
+      margin-top: 5px;
+      padding: 4px 8px;
+      border-radius: 6px;
+      background: #374151;
+      color: #d1d5db;
+      font-size: 11px;
+    }
+
+    .watch {
+      display: block;
+      width: 100%;
+      margin-top: 15px;
+      padding: 11px;
+      border: none;
+      border-radius: 8px;
+      background: #22c55e;
+      color: #06130a;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .watch:hover {
+      opacity: 0.9;
+    }
+
+    footer {
+      text-align: center;
+      color: #6b7280;
+      font-size: 12px;
+      padding: 30px 15px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="logo">Football <span>Live</span></div>
+    <div class="subtitle">مباريات كرة القدم اليوم</div>
+  </header>
+
+  <main>
+
+    <h1 class="title">⚽ مباريات اليوم</h1>
+
+    <div class="date" id="today"></div>
+
+    <div class="match">
+      <div class="competition">مثال — دوري أبطال أوروبا</div>
+
+      <div class="teams">
+        <div class="team">الفريق الأول</div>
+
+        <div class="time">
+          <div class="hour">20:00</div>
+          <div class="status">لم تبدأ</div>
+        </div>
+
+        <div class="team">الفريق الثاني</div>
+      </div>
+
+      <button class="watch" onclick="watchMatch()">
+        ▶ مشاهدة المباراة
+      </button>
+    </div>
+
+  </main>
+
+  <footer>
+    Football Live © 2026
+  </footer>
+
+  <script>
+    const today = new Date();
+
+    document.getElementById("today").textContent =
+      today.toLocaleDateString("ar-MA", {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+      });
+
+    function watchMatch() {
+      alert("صفحة المباراة غادي تكون هنا قريباً.");
+    }
+  </script>
+
+</body>
+</html>
