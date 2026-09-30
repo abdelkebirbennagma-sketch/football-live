@@ -1,12 +1,11 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!DOCTYPE html><html lang="ar" dir="rtl"><head>  <meta charset="UTF-8"><meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
 
-  <title>مشاهدة المباراة - Football Live</title>
+«»
 
-  <style>
+  <title>مشاهدة المباراة - Football Live</title>  <style>
+
     * {
       box-sizing: border-box;
       margin: 0;
@@ -14,258 +13,484 @@
     }
 
     body {
-      font-family: Arial, Tahoma, sans-serif;
+
+      font-family:
+        Arial,
+        Tahoma,
+        sans-serif;
+
       background: #0b0f19;
+
       color: white;
+
       min-height: 100vh;
+
     }
+
 
     header {
+
       background: #111827;
+
       padding: 17px;
+
       text-align: center;
-      border-bottom: 1px solid #202938;
+
+      border-bottom:
+        1px solid #202938;
+
     }
+
 
     .logo {
+
       font-size: 23px;
+
       font-weight: bold;
+
     }
+
 
     .logo span {
+
       color: #22c55e;
+
     }
+
 
     .back {
+
       display: block;
+
       color: #9ca3af;
+
       text-decoration: none;
+
       margin-top: 8px;
+
       font-size: 14px;
+
     }
+
 
     main {
+
       max-width: 700px;
+
       margin: auto;
+
       padding: 15px;
+
     }
+
 
     .player {
+
       height: 210px;
+
       background: #05070c;
-      border: 1px solid #202938;
+
+      border:
+        1px solid #202938;
+
       border-radius: 14px;
+
       display: flex;
+
       align-items: center;
+
       justify-content: center;
+
       text-align: center;
+
       margin-bottom: 15px;
+
     }
+
 
     .player-content {
+
       color: #9ca3af;
+
     }
+
 
     .player-icon {
+
       font-size: 42px;
+
       margin-bottom: 10px;
+
     }
+
 
     .player-title {
+
       color: white;
+
       font-size: 18px;
+
       font-weight: bold;
+
     }
+
 
     .player-text {
+
       margin-top: 7px;
+
       font-size: 13px;
+
     }
+
 
     .match-card {
+
       background: #111827;
-      border: 1px solid #202938;
+
+      border:
+        1px solid #202938;
+
       border-radius: 14px;
+
       padding: 18px 12px;
+
     }
+
 
     .league {
+
       text-align: center;
+
       color: #9ca3af;
+
       font-size: 13px;
+
       margin-bottom: 18px;
+
     }
+
 
     .teams {
+
       display: grid;
-      grid-template-columns: 1fr 90px 1fr;
+
+      grid-template-columns:
+        1fr 90px 1fr;
+
       align-items: center;
+
       gap: 8px;
+
     }
+
 
     .team {
+
       text-align: center;
+
       font-weight: bold;
+
       font-size: 14px;
+
     }
+
 
     .team img {
+
       width: 55px;
+
       height: 55px;
+
       object-fit: contain;
+
       display: block;
-      margin: 0 auto 8px;
+
+      margin:
+        0 auto 8px;
+
     }
+
 
     .center {
+
       text-align: center;
+
     }
+
 
     .time {
+
       font-size: 18px;
+
       font-weight: bold;
+
     }
+
 
     .status {
+
       color: #22c55e;
+
       font-size: 12px;
+
       margin-top: 6px;
+
     }
+
 
     .score {
+
       font-size: 20px;
+
       font-weight: bold;
+
       margin-top: 5px;
+
     }
+
 
     .info {
+
       margin-top: 20px;
-      border-top: 1px solid #202938;
+
+      border-top:
+        1px solid #202938;
+
       padding-top: 15px;
+
     }
+
 
     .info-row {
+
       display: flex;
+
       justify-content: space-between;
+
+      gap: 15px;
+
       padding: 7px 0;
+
       font-size: 13px;
+
     }
 
+
     .info-row span:first-child {
+
       color: #9ca3af;
+
     }
+
 
     .loading,
     .error {
+
       text-align: center;
+
       padding: 50px 15px;
+
       color: #9ca3af;
+
     }
+
 
     .error {
+
       color: #ef4444;
+
     }
-  </style>
-</head>
 
-<body>
+  </style></head><body><header>  <div class="logo">
+    Football <span>Live</span>
+  </div><a
+href="/"
+class="back"
 
-<header>
-  <div class="logo">Football <span>Live</span></div>
-  <a href="/" class="back">← العودة إلى مباريات اليوم</a>
-</header>
+«»
 
-<main>
+← العودة إلى مباريات اليوم
 
-  <div id="content" class="loading">
+  </a></header><main>  <div
+    id="content"
+    class="loading"
+  >
     جاري تحميل المباراة...
-  </div>
+  </div></main><script>
 
-</main>
+  // =========================
+  // قراءة ID المباراة من الرابط
+  // =========================
 
-<script>
+  const params =
+    new URLSearchParams(
+      window.location.search
+    );
 
-  const params = new URLSearchParams(window.location.search);
-  const fixtureId = params.get("id");
+  const fixtureId =
+    params.get("id");
+
+
+  // =========================
+  // حالة المباراة
+  // =========================
 
   function getStatus(status) {
 
-    if (["1H", "2H", "ET", "P"].includes(status)) {
+    if (
+      ["1H", "2H", "ET", "P"]
+        .includes(status)
+    ) {
+
       return "مباشر";
+
     }
+
 
     if (status === "HT") {
+
       return "استراحة";
+
     }
 
-    if (["FT", "AET", "PEN"].includes(status)) {
+
+    if (
+      ["FT", "AET", "PEN"]
+        .includes(status)
+    ) {
+
       return "انتهت";
+
     }
+
 
     if (status === "PST") {
+
       return "تأجلت";
+
     }
+
 
     if (status === "CANC") {
+
       return "ألغيت";
+
     }
 
+
     return "لم تبدأ";
+
   }
 
+
+  // =========================
+  // تنسيق الوقت
+  // =========================
 
   function getTime(dateString) {
 
-    return new Date(dateString).toLocaleTimeString("ar-MA", {
-      hour: "2-digit",
-      minute: "2-digit"
-    });
+    return new Date(
+      dateString
+    ).toLocaleTimeString(
+      "ar-MA",
+      {
+        hour: "2-digit",
+        minute: "2-digit"
+      }
+    );
 
   }
 
 
+  // =========================
+  // تحميل تفاصيل المباراة
+  // =========================
+
   async function loadFixture() {
 
-    const content = document.getElementById("content");
+    const content =
+      document.getElementById(
+        "content"
+      );
+
+
+    // لا يوجد ID
 
     if (!fixtureId) {
 
       content.innerHTML = `
+
         <div class="error">
+
           لم يتم تحديد المباراة.
+
         </div>
+
       `;
 
       return;
+
     }
+
 
     try {
 
-      const response = await fetch(
-        "/fixture?id=" + encodeURIComponent(fixtureId)
-      );
+
+      const response =
+        await fetch(
+          "/fixture?id=" +
+          encodeURIComponent(
+            fixtureId
+          )
+        );
+
 
       if (!response.ok) {
-        throw new Error("Fixture API error");
+
+        throw new Error(
+          "Fixture API error"
+        );
+
       }
 
-      const data = await response.json();
 
-      if (!data.response || data.response.length === 0) {
-        throw new Error("Match not found");
+      const data =
+        await response.json();
+
+
+      if (
+        !data.response ||
+        data.response.length === 0
+      ) {
+
+        throw new Error(
+          "Match not found"
+        );
+
       }
 
-      const fixture = data.response[0];
 
-      const home = fixture.teams.home;
-      const away = fixture.teams.away;
+      const fixture =
+        data.response[0];
 
-      const status = fixture.fixture.status.short;
+
+      const home =
+        fixture.teams.home;
+
+      const away =
+        fixture.teams.away;
+
+
+      const status =
+        fixture.fixture.status.short;
+
 
       const homeScore =
         fixture.goals.home !== null
           ? fixture.goals.home
           : "-";
+
 
       const awayScore =
         fixture.goals.away !== null
@@ -273,9 +498,18 @@
           : "-";
 
 
-      document.title =
-        home.name + " vs " + away.name + " - Football Live";
+      // عنوان الصفحة
 
+      document.title =
+        home.name +
+        " vs " +
+        away.name +
+        " - Football Live";
+
+
+      // =========================
+      // عرض المباراة
+      // =========================
 
       content.innerHTML = `
 
@@ -283,7 +517,9 @@
 
           <div class="player-content">
 
-            <div class="player-icon">▶</div>
+            <div class="player-icon">
+              ▶
+            </div>
 
             <div class="player-title">
               البث المباشر
@@ -300,17 +536,21 @@
 
         <div class="match-card">
 
+
           <div class="league">
+
             ${fixture.league.name}
+
           </div>
 
 
           <div class="teams">
 
+
             <div class="team">
 
               <img
-                src="${home.logo}"
+                src="${home.logo || ""}"
                 alt=""
                 onerror="this.style.display='none'"
               >
@@ -322,17 +562,31 @@
 
             <div class="center">
 
+
               <div class="time">
-                ${getTime(fixture.fixture.date)}
+
+                ${getTime(
+                  fixture.fixture.date
+                )}
+
               </div>
+
 
               <div class="status">
+
                 ${getStatus(status)}
+
               </div>
 
+
               <div class="score">
-                ${homeScore} - ${awayScore}
+
+                ${homeScore}
+                -
+                ${awayScore}
+
               </div>
+
 
             </div>
 
@@ -340,7 +594,7 @@
             <div class="team">
 
               <img
-                src="${away.logo}"
+                src="${away.logo || ""}"
                 alt=""
                 onerror="this.style.display='none'"
               >
@@ -349,42 +603,81 @@
 
             </div>
 
+
           </div>
 
 
           <div class="info">
 
-            <div class="info-row">
-              <span>البطولة</span>
-              <span>${fixture.league.name}</span>
-            </div>
 
             <div class="info-row">
-              <span>الملعب</span>
-              <span>${fixture.fixture.venue?.name || "غير متوفر"}</span>
+
+              <span>
+                البطولة
+              </span>
+
+              <span>
+                ${fixture.league.name}
+              </span>
+
             </div>
 
+
             <div class="info-row">
-              <span>الحالة</span>
-              <span>${getStatus(status)}</span>
+
+              <span>
+                الملعب
+              </span>
+
+              <span>
+                ${
+                  fixture.fixture.venue?.name ||
+                  "غير متوفر"
+                }
+              </span>
+
             </div>
+
+
+            <div class="info-row">
+
+              <span>
+                الحالة
+              </span>
+
+              <span>
+                ${getStatus(status)}
+              </span>
+
+            </div>
+
 
           </div>
+
 
         </div>
 
       `;
 
+
     } catch (error) {
+
 
       console.error(error);
 
+
       content.innerHTML = `
+
         <div class="error">
+
           تعذر تحميل معلومات المباراة.
+
           <br><br>
+
           حاول تحديث الصفحة.
+
         </div>
+
       `;
 
     }
@@ -392,9 +685,8 @@
   }
 
 
+  // تشغيل الصفحة
+
   loadFixture();
 
-</script>
-
-</body>
-</html>
+</script></body></html>
