@@ -169,7 +169,7 @@ content="width=device-width, initial-scale=1.0"
     .debug {
       margin-top: 15px;
       padding: 12px;
-      background: #111827;
+      background: #05070c;
       border: 1px solid #374151;
       border-radius: 10px;
       direction: ltr;
@@ -181,28 +181,31 @@ content="width=device-width, initial-scale=1.0"
 
   </style></head><body><header>  <div class="logo">
     Football <span>Live</span>
-  </div>  <a href="/" class="back">
-    ← العودة إلى مباريات اليوم
-  </a></header><main>  <div id="content" class="loading">
+  </div><a
+href="/"
+class="back"
+
+«»
+
+← العودة إلى مباريات اليوم
+
+  </a></header><main>  <div
+    id="content"
+    class="loading"
+  >
     جاري تحميل المباراة...
   </div></main><script>
 
-  // ==============================
-  // قراءة ID من الرابط
-  // ==============================
 
   const params =
     new URLSearchParams(
       window.location.search
     );
 
+
   const fixtureId =
     params.get("id");
 
-
-  // ==============================
-  // حالة المباراة
-  // ==============================
 
   function getStatus(status) {
 
@@ -234,13 +237,11 @@ content="width=device-width, initial-scale=1.0"
   }
 
 
-  // ==============================
-  // الوقت
-  // ==============================
-
   function getTime(dateString) {
 
-    return new Date(dateString).toLocaleTimeString(
+    return new Date(
+      dateString
+    ).toLocaleTimeString(
       "ar-MA",
       {
         hour: "2-digit",
@@ -251,79 +252,73 @@ content="width=device-width, initial-scale=1.0"
   }
 
 
-  // ==============================
-  // تحميل المباراة
-  // ==============================
-
   async function loadFixture() {
 
     const content =
       document.getElementById("content");
 
 
-    // التحقق من ID
-
     if (!fixtureId) {
 
       content.innerHTML = `
+
         <div class="error">
 
           لم يتم تحديد المباراة.
 
-          <div class="debug">
-            الرابط لا يحتوي على id.
-          </div>
-
         </div>
+
       `;
 
       return;
+
     }
 
 
     try {
 
-      // =========================
-      // طلب API
-      // =========================
-
-      const url =
-        "/fixture?id=" +
-        encodeURIComponent(fixtureId);
-
-      console.log("Fixture URL:", url);
-
 
       const response =
-        await fetch(url);
+        await fetch(
+          "/fixture?id=" +
+          encodeURIComponent(fixtureId),
+          {
+            cache: "no-store"
+          }
+        );
 
 
-      // قراءة JSON حتى إذا كان هناك خطأ
-
-      const data =
-        await response.json();
+      const text =
+        await response.text();
 
 
-      console.log("Fixture response:", data);
+      let data;
 
 
-      // =========================
-      // HTTP Error
-      // =========================
+      try {
 
-      if (!response.ok) {
+        data = JSON.parse(text);
+
+      } catch {
 
         throw new Error(
-          "HTTP " +
-          response.status
+          "الخادم أرسل استجابة غير صحيحة."
         );
 
       }
 
 
-      // =========================
-      // API Error
-      // =========================
+      if (!response.ok) {
+
+        throw new Error(
+          data.details
+            ? JSON.stringify(data.details)
+            : data.error ||
+              "خطأ في الخادم."
+        );
+
+      }
+
 
       if (
         data.errors &&
@@ -337,25 +332,17 @@ content="width=device-width, initial-scale=1.0"
       }
 
 
-      // =========================
-      // لا توجد مباراة
-      // =========================
-
       if (
         !data.response ||
         data.response.length === 0
       ) {
 
         throw new Error(
-          "لم يتم العثور على المباراة بهذا ID"
+          "لم يتم العثور على المباراة."
         );
 
       }
 
-
-      // =========================
-      // بيانات المباراة
-      // =========================
 
       const fixture =
         data.response[0];
@@ -384,18 +371,12 @@ content="width=device-width, initial-scale=1.0"
           : "-";
 
 
-      // عنوان الصفحة
-
       document.title =
         home.name +
         " vs " +
         away.name +
         " - Football Live";
 
-
-      // =========================
-      // عرض المباراة
-      // =========================
 
       content.innerHTML = `
 
@@ -422,6 +403,7 @@ content="width=device-width, initial-scale=1.0"
 
         <div class="match-card">
 
+
           <div class="league">
             ${fixture.league.name}
           </div>
@@ -446,7 +428,9 @@ content="width=device-width, initial-scale=1.0"
             <div class="center">
 
               <div class="time">
-                ${getTime(fixture.fixture.date)}
+                ${getTime(
+                  fixture.fixture.date
+                )}
               </div>
 
               <div class="status">
@@ -481,7 +465,9 @@ content="width=device-width, initial-scale=1.0"
 
             <div class="info-row">
 
-              <span>البطولة</span>
+              <span>
+                البطولة
+              </span>
 
               <span>
                 ${fixture.league.name}
@@ -492,7 +478,9 @@ content="width=device-width, initial-scale=1.0"
 
             <div class="info-row">
 
-              <span>الملعب</span>
+              <span>
+                الملعب
+              </span>
 
               <span>
                 ${
@@ -506,7 +494,9 @@ content="width=device-width, initial-scale=1.0"
 
             <div class="info-row">
 
-              <span>الحالة</span>
+              <span>
+                الحالة
+              </span>
 
               <span>
                 ${getStatus(status)}
@@ -517,17 +507,16 @@ content="width=device-width, initial-scale=1.0"
 
           </div>
 
+
         </div>
 
       `;
 
-    }
 
-
-    catch (error) {
+    } catch (error) {
 
       console.error(
-        "Fixture Error:",
+        "Fixture error:",
         error
       );
 
@@ -555,8 +544,7 @@ content="width=device-width, initial-scale=1.0"
   }
 
 
-  // تشغيل
-
   loadFixture();
+
 
 </script></body></html>
